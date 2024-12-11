@@ -1,0 +1,63 @@
+{% extends 'gerenciamento/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1>Lista de Pedidos</h1>
+<a href="{% url 'pedido_create' %}">Adicionar Pedido</a>
+<table id="pedido-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Produtos</th>
+            <th>Valor Total</th>
+            <th>Data</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pedido in pedidos %}
+        <tr>
+            <td>{{ pedido.id }}</td>
+            <td>{{ pedido.cliente.nome }}</td>
+            <td>
+                <ul>
+                    {% for produto in pedido.produtos.all %}
+                    <li>{{ produto.nome }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+            <td>{{ pedido.valor_total }}</td>
+            <td>{{ pedido.data }}</td>
+            <td class="actions">
+                <button onclick="handleAction('{{ pedido.id }}', 'editar')">Editar</button>
+                <button onclick="handleAction('{{ pedido.id }}', 'excluir')">Excluir</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+<script>
+function handleAction(id, action) {
+    let url;
+    if (action === 'editar') {
+        url = `/pedidos/${id}/editar/`;
+    } else if (action === 'excluir') {
+        const confirmar = confirm("Tem certeza que deseja excluir este pedido?");
+        if (!confirmar) return;  
+        url = `/pedidos/${id}/excluir/`;
+    }
+    window.location.href = url;
+}
+</script>
+
+
+<style>
+.actions {
+    display: flex;
+    gap: 10px;
+}
+</style>

@@ -1,0 +1,54 @@
+{% extends 'gerenciamento/base.html' %}
+
+{% load static %}  
+
+{% block content %}
+<h1>Lista de Produtos</h1>
+<a href="{% url 'produto_create' %}">Adicionar Produto</a>
+<table id="produto-table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Estoque</th>
+            <th>Categoria</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for produto in produtos %}
+        <tr>
+            <td>{{ produto.nome }}</td>
+            <td>{{ produto.preco }}</td>
+            <td>{{ produto.estoque }}</td>
+            <td>{{ produto.categoria.nome }}</td>
+            <td class="actions">
+                <button onclick="editarProduto('{{ produto.id }}')">Editar</button>
+                <button onclick="confirmarExclusao('{{ produto.id }}')">Excluir</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+<script>
+function editarProduto(id) {
+    window.location.href = `/produtos/${id}/editar/`;
+}
+
+function confirmarExclusao(id) {
+    const confirmar = confirm("Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita.");
+    if (confirmar) {
+        window.location.href = `/produtos/${id}/excluir/`;
+    }
+}
+</script>
+
+
+<style>
+.actions {
+    display: flex;
+    gap: 10px; 
+}
+</style>

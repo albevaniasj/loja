@@ -1,0 +1,23 @@
+{% extends 'gerenciamento/base.html' %}
+
+{% load static %}  
+
+{% block content %}
+<h1>{{ form.instance.id|yesno:"Editar Produto,Adicionar Produto" }}</h1>
+<form method="post" id="produto-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar</button>
+</form>
+{% endblock %}
+
+<script>
+document.getElementById('produto-form').addEventListener('submit', function(event) {
+    const nome = document.querySelector('#id_nome').value;
+    const preco = document.querySelector('#id_preco').value;
+    if (!nome || preco <= 0) {
+        alert('Por favor, preencha os campos corretamente.');
+        event.preventDefault();
+    }
+});
+</script>

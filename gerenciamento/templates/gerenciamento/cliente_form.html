@@ -1,0 +1,23 @@
+{% extends 'gerenciamento/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1>{{ form.instance.id|yesno:"Editar Cliente,Adicionar Cliente" }}</h1>
+<form method="post" id="cliente-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar</button>
+</form>
+{% endblock %}
+
+<script>
+document.getElementById('cliente-form').addEventListener('submit', function(event) {
+    const nome = document.querySelector('#id_nome').value;
+    const email = document.querySelector('#id_email').value;
+    if (!nome || !email.includes('@')) {
+        alert('Por favor, preencha os campos corretamente.');
+        event.preventDefault();
+    }
+});
+</script>

@@ -1,0 +1,54 @@
+{% extends 'gerenciamento/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1>Lista de Pagamentos</h1>
+<a href="{% url 'pagamento_create' %}">Adicionar Pagamento</a>
+<table id="pagamento-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Pedido</th>
+            <th>Valor Pago</th>
+            <th>Data</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pagamento in pagamentos %}
+        <tr>
+            <td>{{ pagamento.id }}</td>
+            <td>{{ pagamento.pedido.id }}</td>
+            <td>{{ pagamento.valor_pago }}</td>
+            <td>{{ pagamento.data }}</td>
+            <td class="actions">
+                <button onclick="editarPagamento('{{ pagamento.id }}')">Editar</button>
+                <button onclick="confirmarExclusao('{{ pagamento.id }}')">Excluir</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+<script>
+function editarPagamento(id) {
+    window.location.href = `/pagamentos/${id}/editar/`;
+}
+
+function confirmarExclusao(id) {
+    const confirmar = confirm("Tem certeza que deseja excluir este pagamento?");
+    if (confirmar) {
+        window.location.href = `/pagamentos/${id}/excluir/`;
+    }
+}
+</script>
+
+
+<style>
+.actions {
+    display: flex;
+    gap: 10px; 
+}
+</style>

@@ -1,0 +1,50 @@
+{% extends 'gerenciamento/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1>Lista de Fornecedores</h1>
+<a href="{% url 'fornecedor_create' %}">Adicionar Fornecedor</a>
+<table id="fornecedor-table">
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Contato</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for fornecedor in fornecedores %}
+        <tr>
+            <td>{{ fornecedor.nome }}</td>
+            <td>{{ fornecedor.contato }}</td>
+            <td class="actions">
+                <button onclick="editarFornecedor('{{ fornecedor.id }}')">Editar</button>
+                <button onclick="confirmarExclusao('{{ fornecedor.id }}')">Excluir</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+<script>
+function editarFornecedor(id) {
+    window.location.href = `/fornecedores/${id}/editar/`;
+}
+
+function confirmarExclusao(id) {
+    const confirmar = confirm("Tem certeza que deseja excluir este fornecedor?");
+    if (confirmar) {
+        window.location.href = `/fornecedores/${id}/excluir/`;
+    }
+}
+</script>
+
+
+<style>
+.actions {
+    display: flex;
+    gap: 10px; 
+}
+</style>

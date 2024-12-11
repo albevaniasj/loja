@@ -1,0 +1,23 @@
+{% extends 'gerenciamento/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1>{{ form.instance.id|yesno:"Editar Pagamento,Adicionar Pagamento" }}</h1>
+<form method="post" id="pagamento-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar</button>
+</form>
+{% endblock %}
+
+<script>
+document.getElementById('pagamento-form').addEventListener('submit', function(event) {
+    const valorPago = document.querySelector('#id_valor_pago').value;
+    const pedido = document.querySelector('#id_pedido').value;
+    if (valorPago <= 0 || !pedido) {
+        alert('Por favor, preencha os campos corretamente.');
+        event.preventDefault();
+    }
+});
+</script>

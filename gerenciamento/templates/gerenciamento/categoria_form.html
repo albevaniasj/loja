@@ -1,0 +1,20 @@
+{% extends 'gerenciamento/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1>{{ form.instance.id|yesno:"Editar Categoria,Adicionar Categoria" }}</h1>
+<form method="post" id="categoria-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar</button>
+</form>
+{% endblock %}
+
+<script>
+document.getElementById('categoria-form').addEventListener('submit', function(event) {
+    if (!confirm('Deseja salvar as alterações?')) {
+        event.preventDefault();
+    }
+});
+</script>

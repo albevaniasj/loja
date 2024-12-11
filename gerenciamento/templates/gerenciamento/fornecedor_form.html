@@ -1,0 +1,23 @@
+{% extends 'gerenciamento/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1>{{ form.instance.id|yesno:"Editar Fornecedor,Adicionar Fornecedor" }}</h1>
+<form method="post" id="fornecedor-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar</button>
+</form>
+{% endblock %}
+
+<script>
+document.getElementById('fornecedor-form').addEventListener('submit', function(event) {
+    const nome = document.querySelector('#id_nome').value;
+    const contato = document.querySelector('#id_contato').value;
+    if (!nome || !contato) {
+        alert('Por favor, preencha os campos corretamente.');
+        event.preventDefault();
+    }
+});
+</script>

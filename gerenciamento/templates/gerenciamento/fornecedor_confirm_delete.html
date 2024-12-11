@@ -1,0 +1,21 @@
+{% extends 'gerenciamento/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1>Excluir Fornecedor</h1>
+<p>Tem certeza que deseja excluir "{{ object }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Sim</button>
+    <a href="{% url 'fornecedor_list' %}">Cancelar</a>
+</form>
+{% endblock %}
+
+<script>
+document.querySelector('form').addEventListener('submit', function(event) {
+    if (!confirm('Tem certeza que deseja excluir este item?')) {
+        event.preventDefault();
+    }
+});
+</script>

@@ -1,0 +1,39 @@
+{% extends 'gerenciamento/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1>Lista de Categorias</h1>
+<a href="{% url 'categoria_create' %}">Adicionar Categoria</a>
+<ul id="categoria-list">
+    {% for categoria in categorias %}
+    <li>
+        {{ categoria.nome }}
+        <div class="actions">
+            <button onclick="editarCategoria('{{ categoria.id }}')">Editar</button>
+            <button onclick="confirmarExclusao('categoria', '{{ categoria.id }}')">Excluir</button>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
+<script>
+function editarCategoria(id) {
+    window.location.href = `/categorias/${id}/editar/`;
+}
+
+function confirmarExclusao(entidade, id) {
+    if (confirm('Tem certeza que deseja excluir este item?')) {
+        window.location.href = `/${entidade}s/${id}/excluir/`;
+    }
+}
+</script>
+
+
+<style>
+.actions {
+    display: inline-flex;
+    gap: 10px; 
+}
+</style>
